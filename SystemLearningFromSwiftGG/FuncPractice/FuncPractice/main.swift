@@ -107,7 +107,49 @@ class SomeClass {
 let instance = SomeClass()
 instance.doSomething()
 //print(instance.x)
-completionHandlers.first?()
+//completionHandlers.first?()
 enum Beverage: CaseIterable {
     case coffee, tea, juice
+}
+
+@propertyWrapper
+struct TwelveOrLess {
+    private var number = 0
+    var wrappedValue: Int {
+        get { return number }
+        set { number = min(newValue, 12) }
+    }
+}
+
+struct SmallRectangle {
+    @TwelveOrLess var height: Int
+    @TwelveOrLess var width: Int
+}
+
+var rectangle = SmallRectangle()
+//print(rectangle.height)
+
+class Vehicle {
+    var currentSpeed = 0.0
+    var description: String {
+        return "traveling at \(currentSpeed) miles per hour"
+    }
+    func makeNoise() {
+        // 什么也不做——因为车辆不一定会有噪音
+    }
+}
+
+class Bicycle: Vehicle {
+    var hasBasket = false
+    
+    override func makeNoise() {
+        print("Choo Choo")
+    }
+}
+
+let bicyle = Bicycle()
+bicyle.makeNoise()
+
+class Tandem: Bicycle {
+    var currentNumberOfPassengers = 0
 }
